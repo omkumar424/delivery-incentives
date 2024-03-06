@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+contract DeliveryBoy {
+    address public deliveryBoy;
+    uint256 public totalOrders;
+    uint256 public startTime;
+
+    constructor() {
+        deliveryBoy = msg.sender;
+    }
+
+    function compulsoryOrders(uint256 _totalOrders) external pure {
+        assert(_totalOrders == 10);
+    }
+
+    function checkIncentives(uint256 _totalOrders) external pure returns (string memory) {
+        if (_totalOrders > 15) {
+            return "Incentives provided";
+        } else {
+            revert("No incentives provided");
+        }
+    }
+
+    function timeTaken(uint256 _totalOrders, uint256 hoursTaken) external {
+        require(_totalOrders > 15 && hoursTaken < 10, "No bonus earned");
+        payable(deliveryBoy).transfer(1000);
+    }
+}
